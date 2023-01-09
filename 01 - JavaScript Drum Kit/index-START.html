@@ -65,7 +65,6 @@
       const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`)
       const key = document.querySelector(`.key[data-key="${e.keyCode}"]`)
 
-
       if (!audio) return;  // if no corresponding key, just return
 
       audio.currentTime = 0;  // rewind to start
@@ -75,16 +74,29 @@
     }
 
     function removeTransition(e) {
+      const key = document.querySelector(`.key[data-key="${e.keyCode}"]`);
+      if (!key) return;
+      key.classList.remove('playing');
+    }
+
+    // takes the keydown event and extract the corresponding data-key to play a sound
+    window.addEventListener('keydown', playSound);
+
+    // new solution with 'keyup' check
+    window.addEventListener('keyup', removeTransition);
+
+
+    // original solution; not as clean
+
+    /*
+    function removeTransition(e) {
       if (e.propertyName !== 'transform') return; // skip if it's not a transform
 
       this.classList.remove('playing');
     }
-
     const keys = document.querySelectorAll('.key');
     keys.forEach(key => key.addEventListener('transitionend', removeTransition));
-
-    // takes the keydown event and extract the corresponding data-key to play a sound
-    window.addEventListener('keydown', playSound);
+    */
 
   </script>
 
